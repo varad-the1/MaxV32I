@@ -20,6 +20,12 @@ module maxv32i(
     wire [31:0] WD;
     wire [31:0] RD1;
     wire [31:0] RD2;
+    wire [31:0] ALU_B;
+    wire IRMUX;
+    wire [31:0] IMM;
+    
+    assign ALU_B = IRMUX ? IMM : RD2; 
+    
     
     pc pc_dut (.clk(clk), .reset(reset), .PC_next(PC_next), .pc(address));
     
@@ -27,9 +33,11 @@ module maxv32i(
     
     regfile rg_dut (.clk(clk), .rs1(rs1), .rs2(rs2), .rd(rd), .RegWrite(RegWrite), .RD1(RD1), .RD2(RD2), .WD(WD));
     
-    alu alu_dut (.ALUOP(ALUOP), .A(RD1), .B(RD2), .R(WD));
+    alu alu_dut (.ALUOP(ALUOP), .A(RD1), .B(ALU_B), .R(WD));
     
-    control d_dut (.opcode(opcode), .funct3(funct3), .funct7(funct7), .ALUOP(ALUOP), .RegWrite(RegWrite));
+    control d_dut (.opcode(opcode), .funct3(funct3), .funct7(funct7), .ALUOP(ALUOP), .RegWrite(RegWrite), .IRMUX(IRMUX));
+    
+    imm_gen ig_dut (.instruction(inst), .opcode(opcode), .IMM(IMM));
     
     
 endmodule
