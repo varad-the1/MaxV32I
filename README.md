@@ -23,7 +23,7 @@
 | Immediate Generator | ✅ |
 | Control Unit | ✅ |
 | R-type Instructions | ✅ |
-| I-type Instructions | ⬜ |
+| I-type Instructions | ✅ |
 | Load/Store | ⬜ |
 | Branches | ⬜ |
 | Jumps | ⬜ |
